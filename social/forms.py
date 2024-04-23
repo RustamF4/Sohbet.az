@@ -1,5 +1,5 @@
 from django import forms # type: ignore
-from .models import Post
+from .models import Post, Comments
 
 class PostForm(forms.ModelForm):
     
@@ -9,3 +9,12 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['body']
+
+class CommentForm(forms.ModelForm):
+    
+    comment = forms.CharField(label='', widget=forms.Textarea(attrs={
+        'rows' : '3', 'placeholder' : 'inshAllah zarabotayet', 'value' : ''
+    }))
+    class Meta:
+        model = Comments
+        fields = ['comment']

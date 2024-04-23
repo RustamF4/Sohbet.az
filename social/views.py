@@ -43,4 +43,4 @@ class PostDetailView(View):
             'post' : post
         }
 
-        return render(request, 'social/post_diteal.html', context)
+        return render(request, 'social/post_detail.html', context)

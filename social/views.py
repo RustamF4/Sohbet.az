@@ -39,7 +39,7 @@ class PostDetailView(View):
     def get(self, request, pk, *args, **kwargs):
         post = Post.objects.get(pk = pk)
         form = CommentForm()
-        comments = Comments.objects.all().order_by('-created_on')
+        comments = Comments.objects.filter(post_id = pk).order_by('-created_on')
         
 
         context = {
@@ -57,6 +57,7 @@ class PostDetailView(View):
         if comment.is_valid():
             new_comment = comment.save(False)
             new_comment.author = current_user
+            new_comment.post_id = pk
             new_comment.save()
 
         # context = {'comment_list' : comments,

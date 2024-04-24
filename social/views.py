@@ -1,4 +1,4 @@
-from django.shortcuts import render # type: ignore
+from django.shortcuts import render, redirect  # type: ignore
 from django.views import View # type: ignore
 from .models import Post, Comments
 from .forms import PostForm, CommentForm
@@ -33,7 +33,7 @@ class PostView(View):
         # }
 
 
-        return HttpResponseRedirect(self.request.path_info)
+        return redirect('post-list')
     
 class PostDetailView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -50,8 +50,7 @@ class PostDetailView(View):
 
         return render(request, 'social/post_detail.html', context)
     
-    def comment_post(self, request, *args, **kwargs):
-        
+    def post(self, request, pk, *args, **kwargs):
         current_user = request.user
         comment = CommentForm(request.POST)
 
@@ -65,5 +64,5 @@ class PostDetailView(View):
         # }
 
 
-        return HttpResponseRedirect(self.request.path_info, )
+        return HttpResponseRedirect(self.request.path_info, pk)
     

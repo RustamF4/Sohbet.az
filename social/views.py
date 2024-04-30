@@ -60,15 +60,20 @@ class PostDetailView(View):
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
-        profile = Profile.objects.get(pk=pk)
-        user = Profile.user
-        posts = Post.objects.filter(author = user).order_by('-created_on')
+        user = request.user
+        profile = Profile.user
+        posts = Post.objects.filter(author = user.id).order_by('-created_on')
 
         context = {
             'user' : user,
             'profile' : profile,
-            'posts' : posts
+            'posts' : posts,
         } 
 
         return render(request, 'social/profile.html', context)
+    
+    def post(self, request, pk, *args, **kwargs):
+        
+
+        return HttpResponseRedirect(self.request.path_info)
 

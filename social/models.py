@@ -1,7 +1,8 @@
 from django.db import models # type: ignore
 from django.utils import timezone  # type: ignore
 from django.contrib.auth.models import User # type: ignore
-
+from django.db.models.signals import post_save # type: ignore
+from django.dispatch import receiver # type: ignore
 
 class Post(models.Model):
     body = models.TextField()
@@ -21,4 +22,13 @@ class Profile(models.Model):
     birthday = models.DateField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='media/uploads/profile_pictures', default='media/uploads/profile_pictures/default.png', blank=True)
-    wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'media/uploads/wall_pictures/default.jpg')
+    #wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'media/uploads/wall_pictures/default.jpg')
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

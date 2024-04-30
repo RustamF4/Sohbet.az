@@ -6,7 +6,7 @@
         </button>
         <a class="navbar-brand" 
           {% if user.is_authenticated %}
-            href="{% url 'post-list' %}"
+            href="{% url 'post_list' %}"
           {% else %} 
             href="{% url 'index' %}"
             {%endif%}

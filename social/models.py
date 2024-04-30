@@ -21,4 +21,4 @@ class Profile(models.Model):
     birthday = models.DateField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='media/uploads/profile_pictures', default='media/uploads/profile_pictures/default.png', blank=True)
-    wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'media/uploads/wall_pictures/default.webp')
+    wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'media/uploads/wall_pictures/default.jpg')

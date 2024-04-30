@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect  # type: ignore
 from django.views import View # type: ignore
-from .models import Post, Comments
+from .models import Post, Comments, Profile
 from .forms import PostForm, CommentForm
 from social import models
 from django.http import HttpResponseRedirect # type: ignore
@@ -19,7 +19,6 @@ class PostView(View):
         
     def post (self, request, *args, **kwargs):
 
-        # posts = Post.objects.all().order_by('-created_on')
         current_user = request.user
         form = PostForm(request.POST)
 
@@ -27,11 +26,6 @@ class PostView(View):
             new_post = form.save(False)
             new_post.author = current_user
             new_post.save()
-
-        # context = {'post_list' : posts,
-        #            'form' : form,
-        # }
-
 
         return redirect('post-list')
     
@@ -60,10 +54,21 @@ class PostDetailView(View):
             new_comment.post_id = pk
             new_comment.save()
 
-        # context = {'comment_list' : comments,
-        #            'comment' : comment,
-        # }
-
 
         return HttpResponseRedirect(self.request.path_info, pk)
     
+
+class ProfileView(View):
+    def get(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        user = Profile.user
+        posts = Post.objects.filter(author = user).order_by('-created_on')
+
+        context = {
+            'user' : user,
+            'profile' : profile,
+            'posts' : posts
+        } 
+
+        return render(request, 'social/profile.html', context)
+

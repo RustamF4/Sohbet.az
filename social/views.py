@@ -64,13 +64,13 @@ class PostDetailView(View):
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
         user = request.user
-        profile = Profile.user
         posts = Post.objects.filter(author = user.id).order_by('-created_on')
+        profile = user.profile
 
         context = {
             'user' : user,
-            'profile' : profile,
             'posts' : posts,
+            'profile': profile,
         } 
 
         return render(request, 'social/profile.html', context)

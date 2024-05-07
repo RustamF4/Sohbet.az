@@ -21,8 +21,8 @@ class Profile(models.Model):
     bio = models.CharField(max_length=500, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='media/uploads/profile_pictures', default='media/uploads/profile_pictures/default.png', blank=True)
-    wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'media/uploads/wall_pictures/default.jpg')
+    profile_picture = models.ImageField(upload_to='media/uploads/profile_pictures', default='uploads/profile_pictures/default.png', blank=True)
+    wall_picture = models.ImageField(upload_to= 'media/uploads/wall_pictures', default= 'uploads/wall_pictures/default.jpg')
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
